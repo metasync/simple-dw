@@ -1,0 +1,24 @@
+version: 2
+
+sources:
+  - name: jaffle_shop
+    schema: jaffle_shop
+    description: E-commerce data for the Jaffle Shop
+    # freshness:
+    #   warn_after:
+    #     count: 24
+    #     period: hour
+    tables:
+      - name: ods_customers
+        description: One record per person who has purchased one or more items
+      - name: ods_orders
+        description: One record per order (consisting of one or more order items)
+        loaded_at_field: ordered_at
+      - name: ods_items
+        description: Items included in an order
+      - name: ods_stores
+        loaded_at_field: opened_at
+      - name: ods_products
+        description: One record per SKU for items sold in stores
+      - name: ods_supplies
+        description: One record per supply per SKU of items sold in stores

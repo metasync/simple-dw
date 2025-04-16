@@ -1,0 +1,15 @@
+.venv
+venv
+.env
+env
+
+uv.lock
+package-lock.yml
+
+target/
+dbt_packages/
+logs/
+data/
+
+.ipynb_checkpoints/
+

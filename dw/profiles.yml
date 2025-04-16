@@ -1,0 +1,15 @@
+dw:
+  outputs:
+    dev:
+      type: duckdb
+      schema: dw
+      path: data/dev.duckdb
+      threads: 1
+
+    prod:
+      type: duckdb
+      schema: dw
+      path: data/prod.duckdb
+      threads: 4
+
+  target: dev

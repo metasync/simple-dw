@@ -1,0 +1,31 @@
+# https://taskfile.dev
+
+version: '3'
+
+silent: true
+
+vars:
+  GREETING: Hello, World!
+
+tasks:
+  default:
+    cmds:
+      - echo "{{.GREETING}}"
+    silent: true
+
+  db:
+    cmds:
+      - duckdb dw/data/dev.duckdb
+
+  build:
+    cmds:
+      - cd dw && dbt build
+
+  run:
+    cmds:
+      - cd dw && dbt run
+
+  test:
+    cmds:
+      - cd dw && dbt test
+

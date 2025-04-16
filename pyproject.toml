@@ -1,0 +1,20 @@
+[project]
+name = "simple-dw"
+version = "0.1.0"
+description = "Simle data warehouse using dbt and dagster"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "dagster>=1.10.10",
+    "dagster-duckdb>=0.26.10",
+    "dagster-webserver>=1.10.10",
+    "dbt>=1.0.0.39.0",
+    "dbt-duckdb>=1.9.2",
+    "duckdb>=1.2.2",
+    "go-task-bin>=3.42.1",
+]
+
+[dependency-groups]
+dev = [
+    "jafgen>=0.4.14",
+]
