@@ -5,11 +5,14 @@ env
 
 uv.lock
 package-lock.yml
+package-lock.concurrent-update-lock
 
 target/
 dbt_packages/
 logs/
-data/
+__pycache__/
+
+*.duckdb
 
 .ipynb_checkpoints/
 
