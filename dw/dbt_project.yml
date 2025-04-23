@@ -39,12 +39,5 @@ models:
     dws:
       +materialized: incremental
 
-seeds:
-  dw:
-    jaffle-data:
-      +enabled: false
-      # +enabled: true
-      +schema: jaffle_shop
-
 flags:
   send_anonymous_usage_stats: false

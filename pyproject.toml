@@ -13,10 +13,23 @@ dependencies = [
     "dbt-duckdb>=1.9.2",
     "duckdb>=1.2.2",
     "go-task-bin>=3.42.1",
+    "pandas>=2.2.3",
 ]
 
 [dependency-groups]
 dev = [
     "jafgen>=0.4.14",
 ]
+
+[tool.uv]
+native-tls = true
+
+[[tool.uv.index]]
+name = "devpi"
+url = "https://devpi.k8s.orb.local/root/pypi"
+default = true
+
+[tool.dagster]
+module_name = "dw_dagster.definitions"
+code_location_name = "dw_dagster"
 

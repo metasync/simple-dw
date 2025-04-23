@@ -11,14 +11,37 @@ sources:
     tables:
       - name: ods_customers
         description: One record per person who has purchased one or more items
+        meta:
+          dagster:
+            asset_key: ['raw_customers']
       - name: ods_orders
         description: One record per order (consisting of one or more order items)
         loaded_at_field: ordered_at
+        meta:
+          dagster:
+            asset_key: ['raw_orders']
       - name: ods_items
         description: Items included in an order
+        meta:
+          dagster:
+            asset_key: ['raw_items']
       - name: ods_stores
         loaded_at_field: opened_at
+        meta:
+          dagster:
+            asset_key: ['raw_stores']
       - name: ods_products
         description: One record per SKU for items sold in stores
+        meta:
+          dagster:
+            asset_key: ['raw_products']
       - name: ods_supplies
         description: One record per supply per SKU of items sold in stores
+        meta:
+          dagster:
+            asset_key: ['raw_supplies']
+      - name: ods_tweets
+        description: One record per tweet per customer
+        meta:
+          dagster:
+            asset_key: ['raw_tweets']

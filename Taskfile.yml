@@ -4,28 +4,29 @@ version: '3'
 
 silent: true
 
-vars:
-  GREETING: Hello, World!
-
 tasks:
-  default:
+  dev.dagster:
+    desc: Start dagster for local development
     cmds:
-      - echo "{{.GREETING}}"
-    silent: true
+      - dagster dev
 
-  db:
+  dev.db:
+    desc: Connect to the development duckdb
     cmds:
       - duckdb dw/data/dev.duckdb
 
-  build:
+  dev.build:
+    dir: dw
     cmds:
-      - cd dw && dbt build
+      - dbt build
 
-  run:
+  dev.run:
+    dir: dw
     cmds:
-      - cd dw && dbt run
+      - dbt run
 
-  test:
+  dev.test:
+    dir: dw
     cmds:
-      - cd dw && dbt test
+      - dbt test
 
