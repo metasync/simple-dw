@@ -19,17 +19,14 @@ dependencies = [
 [dependency-groups]
 dev = [
     "jafgen>=0.4.14",
+    "pytest>=8.3.5",
+    "ruff>=0.11.7",
 ]
 
 [tool.uv]
 native-tls = true
 
-[[tool.uv.index]]
-name = "devpi"
-url = "https://devpi.k8s.orb.local/root/pypi"
-default = true
-
-[tool.dagster]
-module_name = "dw_dagster.definitions"
-code_location_name = "dw_dagster"
-
+# [[tool.uv.index]]
+# name = "devpi"
+# url = "https://devpi.k8s.orb.local/root/pypi"
+# default = true

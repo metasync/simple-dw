@@ -35,8 +35,10 @@ vars:
 models:
   dw:
     dwd:
+      +group: dwd
       +materialized: view
     dws:
+      +group: dws
       +materialized: incremental
 
 flags:

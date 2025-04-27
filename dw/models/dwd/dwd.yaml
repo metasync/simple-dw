@@ -1,0 +1,5 @@
+groups:
+  - name: dwd
+    owner:
+      name: Data Services
+      email: data_services@jaffleshop.com

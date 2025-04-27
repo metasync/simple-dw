@@ -13,19 +13,22 @@ tasks:
   dev.db:
     desc: Connect to the development duckdb
     cmds:
-      - duckdb dw/data/dev.duckdb
+      - duckdb data/dev.duckdb
 
   dev.build:
+    desc: Build dbt project (run & test)
     dir: dw
     cmds:
       - dbt build
 
   dev.run:
+    desc: Run dbt project
     dir: dw
     cmds:
       - dbt run
 
   dev.test:
+    desc: Test dbt project
     dir: dw
     cmds:
       - dbt test

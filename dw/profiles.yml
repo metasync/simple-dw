@@ -3,29 +3,25 @@ dw:
     dev:
       type: duckdb
       schema: dw
-      path: data/dev.duckdb
+      path: ../data/dev.duckdb
       threads: 1
 
-    sandbox:
-      type: duckdb
-      schema: dw
-      path: data/sandbox.duckdb
-      thread: 2
+    snd:
+      type: starrocks
+      schema: dw # database
+      host: "{{ env_var('DW_HOST') }}" # snd.dw.db
+      port: "{{ env_var('DW_PORT') }}" # 9030
+      threads: 2
+      username: "{{ env_var('DW_USER') }}"
+      password: "{{ env_var('DW_PASSWORD') }}"
 
     prod:
-      type: duckdb
-      schema: dw
-      path: data/prod.duckdb
+      type: starrocks
+      schema: dw # database
+      host: "{{ env_var('DW_HOST') }}" # prd.dw.db
+      port: "{{ env_var('DW_PORT') }}" # 9030
+      username: "{{ env_var('DW_USER') }}"
+      password: "{{ env_var('DW_PASSWORD') }}"
       threads: 4
-
-    # prod:
-    #   type: starrocks
-    #   host: "{{ env_var('DW_HOST') }}" # prd-dw-db
-    #   port: "{{ env_var('DW_PORT') }}" # 9030
-    #   schema: dw # database
-      
-    #   # User/password auth
-    #   username: "{{ env_var('DW_USER') }}"
-    #   password: "{{ env_var('DW_PASSWORD') }}"
 
   target: dev
