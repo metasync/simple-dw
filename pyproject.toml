@@ -1,7 +1,7 @@
 [project]
 name = "simple-dw"
-version = "0.1.0"
-description = "Simle data warehouse using dbt and dagster"
+version = "0.2.0"
+description = "Simple data warehouse using dbt and dagster"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
