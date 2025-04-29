@@ -11,9 +11,11 @@ dependencies = [
     "dagster-webserver>=1.10.10",
     "dbt>=1.0.0.39.0",
     "dbt-duckdb>=1.9.2",
+    "dbt-starrocks>=1.9.0",
     "duckdb>=1.2.2",
-    "go-task-bin>=3.42.1",
+    "go-task-bin>=3.43.3",
     "pandas>=2.2.3",
+    "starrocks>=1.2.2",
 ]
 
 [dependency-groups]

@@ -1,27 +1,36 @@
 dw:
   outputs:
+    # dev:
+    #   type: duckdb
+    #   schema: dw
+    #   path: ../data/dev.duckdb
+    #   threads: 1
+    
     dev:
-      type: duckdb
-      schema: dw
-      path: ../data/dev.duckdb
-      threads: 1
+      type: starrocks
+      host: "{{ env_var('DW_HOST') }}" # dev-dwdb
+      port: "{{ env_var('DW_PORT', 9030) | int }}"
+      schema: "{{ env_var('DW_SCHEMA') }}" # dw
+      username: "{{ env_var('DW_USER') }}"
+      password: "{{ env_var('DW_PASSWORD') }}"
+      threads: "{{ env_var('DBT_THREADS') | int }}"
 
     snd:
       type: starrocks
-      schema: dw # database
-      host: "{{ env_var('DW_HOST') }}" # snd.dw.db
-      port: "{{ env_var('DW_PORT') }}" # 9030
-      threads: 2
+      host: "{{ env_var('DW_HOST') }}" # snd-dwdb
+      port: "{{ env_var('DW_PORT', 9030) | int }}"
+      schema: "{{ env_var('DW_SCHEMA') }}" # dw
       username: "{{ env_var('DW_USER') }}"
       password: "{{ env_var('DW_PASSWORD') }}"
+      threads: "{{ env_var('DBT_THREADS') | int }}"
 
     prod:
       type: starrocks
-      schema: dw # database
-      host: "{{ env_var('DW_HOST') }}" # prd.dw.db
-      port: "{{ env_var('DW_PORT') }}" # 9030
+      host: "{{ env_var('DW_HOST') }}" # prd-dwdb
+      port: "{{ env_var('DW_PORT', 9030) | int }}"
+      schema: "{{ env_var('DW_SCHEMA') }}" # dw
       username: "{{ env_var('DW_USER') }}"
       password: "{{ env_var('DW_PASSWORD') }}"
-      threads: 4
+      threads: "{{ env_var('DBT_THREADS') | int }}"
 
   target: dev
