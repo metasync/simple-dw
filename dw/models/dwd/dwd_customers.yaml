@@ -5,5 +5,5 @@ models:
       - name: customer_id
         description: The unique key for each customer.
         data_tests:
-          - not_null:q
+          - not_null
           - unique
