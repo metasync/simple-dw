@@ -1,54 +1,41 @@
-import os
+from dagster_sling import SlingResource, sling_assets
 
-import pandas as pd
-from dagster_duckdb import DuckDBResource
-from dagster import AssetExecutionContext, asset
+replication_config = {
+  "source": "local",
+  "target": "simple_dw",
+  "defaults": {
+    "mode": "full-refresh",
+  },
+  "streams": {
+    "file:///home/jovyan/projects/simple-dw/data/jaffle_shop/raw_customers.csv": {
+      "object": "jaffle_shop.ods_customers",
+    },
+    "file:///home/jovyan/projects/simple-dw/data/jaffle_shop/raw_items.csv": {
+      "object": "jaffle_shop.ods_items",
+    },
+    "file:///home/jovyan/projects/simple-dw/data/jaffle_shop/raw_orders.csv": {
+      "object": "jaffle_shop.ods_orders",
+      "columns": { "ordered_at": "datetime" },
+    },
+    "file:///home/jovyan/projects/simple-dw/data/jaffle_shop/raw_products.csv": {
+      "object": "jaffle_shop.ods_products"
+    },
+    "file:///home/jovyan/projects/simple-dw/data/jaffle_shop/raw_stores.csv": {
+      "object": "jaffle_shop.ods_stores",
+      "columns": { "opened_at": "datetime" },
+    },
+    "file:///home/jovyan/projects/simple-dw/data/jaffle_shop/raw_supplies.csv": {
+      "object": "jaffle_shop.ods_supplies",
+    },
+    "file:///home/jovyan/projects/simple-dw/data/jaffle_shop/raw_tweets.csv": {
+      "object": "jaffle_shop.ods_tweets",
+      "columns": { "tweeted_at": "datetime" },
+    },
+  },
+}
 
-from ods_dagster.environment import jaffle_data_dir
-
-@asset(kinds={"python", "duckdb"})
-def ods_customers(context: AssetExecutionContext, duckdb: DuckDBResource) -> None:
-  num_rows = raw_jaffle_shop_assets(duckdb, "customers")
-  context.add_output_metadata({"num_rows": num_rows})
-
-@asset(kinds={"python", "duckdb"})
-def ods_items(context: AssetExecutionContext, duckdb: DuckDBResource) -> None:
-  num_rows = raw_jaffle_shop_assets(duckdb, "items")
-  context.add_output_metadata({"num_rows": num_rows})
-
-@asset(kinds={"python", "duckdb"})
-def ods_orders(context: AssetExecutionContext, duckdb: DuckDBResource) -> None:
-  num_rows = raw_jaffle_shop_assets(duckdb, "orders", date_cols=["ordered_at"])
-  context.add_output_metadata({"num_rows": num_rows})
-    
-@asset(kinds={"python", "duckdb"})
-def ods_products(context: AssetExecutionContext, duckdb: DuckDBResource) -> None:
-  num_rows = raw_jaffle_shop_assets(duckdb, "products")
-  context.add_output_metadata({"num_rows": num_rows})
-
-@asset(kinds={"python", "duckdb"})
-def ods_stores(context: AssetExecutionContext, duckdb: DuckDBResource) -> None:
-  num_rows = raw_jaffle_shop_assets(duckdb, "stores", date_cols=["opened_at"])
-  context.add_output_metadata({"num_rows": num_rows})
-
-@asset(kinds={"python", "duckdb"})
-def ods_supplies(context: AssetExecutionContext, duckdb: DuckDBResource) -> None:
-  num_rows = raw_jaffle_shop_assets(duckdb, "supplies")
-  context.add_output_metadata({"num_rows": num_rows})
-
-@asset(kinds={"python", "duckdb"})
-def ods_tweets(context: AssetExecutionContext, duckdb: DuckDBResource) -> None:
-  num_rows = raw_jaffle_shop_assets(duckdb, "tweets", date_cols=["tweeted_at"])
-  context.add_output_metadata({"num_rows": num_rows})
-
-def raw_jaffle_shop_assets(duckdb: DuckDBResource, asset_name, date_cols=[]) -> int:
-  assets_csv_file = jaffle_data_dir.joinpath(f"raw_{asset_name}.csv")
-  data = pd.read_csv(os.fspath(assets_csv_file), parse_dates=date_cols)
-    
-  with duckdb.get_connection() as conn:
-    conn.execute("create schema if not exists jaffle_shop")
-    conn.execute(
-      f"create or replace table jaffle_shop.ods_{asset_name} as select * from data"
-    )
-      
-  return data.shape[0]
+@sling_assets(replication_config=replication_config)
+def raw_assets(context, sling: SlingResource):
+  yield from sling.replicate(context=context)
+  for row in sling.stream_raw_logs():
+    context.log.info(row)
